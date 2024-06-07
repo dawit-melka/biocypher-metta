@@ -69,6 +69,6 @@ class UniprotAdapter(Adapter):
                                 yield  _source, _target, self.label, _props
 
                             except:
-                                print(
-                                    f'fail to process for edge translation of: {record.id}')
+                                # print(
+                                #     f'fail to process for edge translation of: {record.id}')
                                 pass

@@ -58,7 +58,7 @@ class ABCAdapter(Adapter):
                         }
                         yield rsid, self.label, _props
                 except KeyError as e:
-                    logger.error(f"rsid {rsid} not found in dbsnp_rsid_map, skipping...")
+                    # logger.error(f"rsid {rsid} not found in dbsnp_rsid_map, skipping...")
                     continue
 
 
