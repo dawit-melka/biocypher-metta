@@ -86,5 +86,5 @@ class ABCAdapter(Adapter):
                             print(f"error while parsing row: {row}, error: {e} skipping...")
                             continue
                 except KeyError as e:
-                    logger.error(f"rsid {rsid} not found in dbsnp_rsid_map, skipping...")
+                    # logger.error(f"rsid {rsid} not found in dbsnp_rsid_map, skipping...")
                     continue
