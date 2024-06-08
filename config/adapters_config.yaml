@@ -351,7 +351,7 @@ refseq_closest_gene:
 
   outdir: refseq
   nodes: False
-  edges: edge
+  edges: True
 
 # topld_afr:
 #    adapter:
