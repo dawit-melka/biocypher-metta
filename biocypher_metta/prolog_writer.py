@@ -8,11 +8,11 @@ import networkx as nx
 class PrologWriter:
 
     def __init__(self, schema_config, biocypher_config,
-                 output_dir, write_properties):
+                 output_dir):
         self.schema_config = schema_config
         self.biocypher_config = biocypher_config
         self.output_path = pathlib.Path(output_dir)
-        self.write_properties = write_properties
+        # self.write_properties = write_properties
 
         if not os.path.exists(output_dir):
             self.output_path.mkdir()
@@ -31,19 +31,22 @@ class PrologWriter:
         self.edge_node_types = {}
 
         for k, v in schema.items():
-            if v["represented_as"] == "edge": #(: (label $x $y) (-> source_type target_type
-                edge_type = self.convert_input_labels(k)
+            try:
+                if v["represented_as"] == "edge": #(: (label $x $y) (-> source_type target_type
+                    edge_type = self.convert_input_labels(k)
 
-                # ## TODO fix this in the scheme config
-                if isinstance(v["input_label"], list):
-                    label = self.convert_input_labels(v["input_label"][0])
-                    source_type = self.convert_input_labels(v["source"][0])
-                    target_type = self.convert_input_labels(v["target"][0])
-                else:
-                    label = self.convert_input_labels(v["input_label"])
-                    source_type = self.convert_input_labels(v["source"])
-                    target_type = self.convert_input_labels(v["target"])
-                self.edge_node_types[label.lower()] = {"source": source_type.lower(), "target": target_type.lower()}
+                    # ## TODO fix this in the scheme config
+                    if isinstance(v["input_label"], list):
+                        label = self.convert_input_labels(v["input_label"][0])
+                        source_type = self.convert_input_labels(v["source"][0])
+                        target_type = self.convert_input_labels(v["target"][0])
+                    else:
+                        label = self.convert_input_labels(v["input_label"])
+                        source_type = self.convert_input_labels(v["source"])
+                        target_type = self.convert_input_labels(v["target"])
+                    self.edge_node_types[label.lower()] = {"source": source_type.lower(), "target": target_type.lower()}
+            except:
+                continue
 
     def write_nodes(self, nodes, path_prefix=None, create_dir=True):
         if path_prefix is not None:
@@ -87,24 +90,30 @@ class PrologWriter:
         label = label.lower()
         id = id.lower()
         def_out = f"{self.convert_input_labels(label)}({id})."
-        if self.write_properties:
-            return self.write_property(def_out, properties)
-        return [def_out]
+        # if self.write_properties:
+        #     return self.write_property(def_out, properties)
+        # return [def_out]
+        return self.write_property(def_out, properties)
 
     def write_edge(self, edge):
-        _id, source_id, target_id, label, properties = edge
+        source_id, target_id, label, properties = edge
         label = label.lower()
         source_id = source_id.lower()
         target_id = target_id.lower()
         source_type = self.edge_node_types[label]["source"]
         target_type = self.edge_node_types[label]["target"]
         def_out = f"{label}({source_type}({source_id}), {target_type}({target_id}))."
-        if self.write_properties:
-            def_out_2 = f"{label}({source_type}({source_id}), {target_type}({target_id}))"
-            out_str = self.write_property(def_out_2, properties)
-            out_str.insert(0, def_out)
-            return out_str
-        return [def_out]
+        # if self.write_properties:
+        #     def_out_2 = f"{label}({source_type}({source_id}), {target_type}({target_id}))"
+        #     out_str = self.write_property(def_out_2, properties)
+        #     out_str.insert(0, def_out)
+        #     return out_str
+        # return [def_out]
+        def_out_2 = f"{label}({source_type}({source_id}), {target_type}({target_id}))"
+        out_str = self.write_property(def_out_2, properties)
+        out_str.insert(0, def_out)
+        return out_str
+        
 
 
     def write_property(self, def_out, property):
