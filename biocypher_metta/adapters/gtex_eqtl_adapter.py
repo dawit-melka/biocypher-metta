@@ -68,7 +68,7 @@ class GTExEQTLAdapter(Adapter):
                                 chr, pos, ref_seq, alt_seq, assembly_code = row[11].split('_')
                                 pos = int(pos)
                                 if assembly_code != 'b38':
-                                    print('Unsuported assembly: ' + assembly_code)
+                                    # print('Unsuported assembly: ' + assembly_code)
                                     continue
 
                                 variant_id = row[18]
@@ -91,5 +91,6 @@ class GTExEQTLAdapter(Adapter):
 
                                     yield _source, _target, self.label, _props
                             except Exception as e:
-                                print(row)
-                                print(e)
+                                # print(row)
+                                # print(e)
+                                continue
