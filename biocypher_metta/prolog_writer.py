@@ -32,17 +32,23 @@ class PrologWriter:
         for k, v in schema.items():
             if v["represented_as"] == "edge": #(: (label $x $y) (-> source_type target_type
                 edge_type = self.convert_input_labels(k)
+                #Check if there are source and target fields
+                source_type = v.get("source", None)
+                target_type = v.get("target", None)
+                if source_type is not None and target_type is not None:
+                    # ## TODO fix this in the scheme config
+                    if isinstance(v["input_label"], list):
+                        label = self.convert_input_labels(v["input_label"][0])
+                        source_type = self.convert_input_labels(source_type[0])
+                        target_type = self.convert_input_labels(target_type[0])
+                    else:
+                        label = self.convert_input_labels(v["input_label"])
+                        source_type = self.convert_input_labels(source_type)
+                        target_type = self.convert_input_labels(target_type)
 
-                # ## TODO fix this in the scheme config
-                if isinstance(v["input_label"], list):
-                    label = self.convert_input_labels(v["input_label"][0])
-                    source_type = self.convert_input_labels(v["source"][0])
-                    target_type = self.convert_input_labels(v["target"][0])
-                else:
-                    label = self.convert_input_labels(v["input_label"])
-                    source_type = self.convert_input_labels(v["source"])
-                    target_type = self.convert_input_labels(v["target"])
-                self.edge_node_types[label.lower()] = {"source": source_type.lower(), "target": target_type.lower()}
+                    output_label = v.get("output_label", None)
+                    self.edge_node_types[label.lower()] = {"source": source_type.lower(), "target":
+                        target_type.lower(), "output_label": output_label.lower() if output_label is not None else None}
 
     def write_nodes(self, nodes, path_prefix=None, create_dir=True):
         if path_prefix is not None:
