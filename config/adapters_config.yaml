@@ -137,32 +137,32 @@
 #   nodes: False
 #   edges: True
 
-# go_ontology_terms:
-#   adapter:
-#     module: biocypher_metta.adapters.gene_ontology_adapter
-#     cls: GeneOntologyAdapter
-#     args:
-#       ontology: 'go'
-#       type: node
-#       dry_run: False
+go_ontology_terms:
+  adapter:
+    module: biocypher_metta.adapters.gene_ontology_adapter
+    cls: GeneOntologyAdapter
+    args:
+      ontology: 'go'
+      type: node
+      dry_run: False
 
-#   outdir: gene_onotology
-#   nodes: True
-#   edges: False
+  outdir: gene_onotology
+  nodes: True
+  edges: False
 
-# go_subtype_of:
-#   adapter:
-#     module: biocypher_metta.adapters.gene_ontology_adapter
-#     cls: GeneOntologyAdapter
-#     args:
-#       ontology: 'go'
-#       label: go_subtype_of
-#       type: edge
-#       dry_run: False
+go_subtype_of:
+  adapter:
+    module: biocypher_metta.adapters.gene_ontology_adapter
+    cls: GeneOntologyAdapter
+    args:
+      ontology: 'go'
+      label: go_subtype_of
+      type: edge
+      dry_run: False
 
-#   outdir: gene_onotology
-#   nodes: False
-#   edges: True
+  outdir: gene_onotology
+  nodes: False
+  edges: True
 
 
 # gaf:
@@ -492,16 +492,16 @@
 #   edges: True
 
 
-# dbvar_variant:
-#   adapter:
-#     module: biocypher_metta.adapters.dbvar_adapter
-#     cls: DBVarVariantAdapter
-#     args:
-#       filepath: /mnt/hdd_2/abdu/biocypher_data/dbvar/GRCh38.variant_call.all.vcf.gz
+dbvar_variant:
+  adapter:
+    module: biocypher_metta.adapters.dbvar_adapter
+    cls: DBVarVariantAdapter
+    args:
+      filepath: /mnt/hdd_2/abdu/biocypher_data/dbvar/GRCh38.variant_call.all.vcf.gz
 
-#   outdir: dbvar
-#   nodes: True
-#   edges: False
+  outdir: dbvar
+  nodes: True
+  edges: False
 
 
 # peregrine_enhancer:
